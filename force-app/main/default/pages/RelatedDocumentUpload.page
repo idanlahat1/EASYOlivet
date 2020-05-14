@@ -1,0 +1,51 @@
+<apex:page showHeader="false" sidebar="false" controller="RelatedDocumentUpload"  standardStylesheets="false" docType="html-5.0">
+	<c:ApplicationHead />
+    <apex:form rendered="{!NOT(ISBLANK($CurrentPage.parameters.Id))}">
+       
+        <c:ApplicationBody title="Document Upload - {!objName}" appControl="{!appControl}">
+            <!-- <apex:actionFunction name="saveWithDocs" action="{!submit}" reRender="theUploadSection" oncomplete="appHideLoadingSpinner();">
+                <apex:param name="p1" value="" assignTo="{!additionalDataString}"/>
+            </apex:actionFunction>-->
+           
+            <div class="row" >
+                
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-xs-12" >
+                    <apex:outputPanel id="themessages" >
+                             <apex:pageMessages  />
+                             <div> <br></br> </div>
+                            </apex:outputPanel>   
+                    <div data-interval="false" data-wrap="false" >   
+                        <div class="row" style="display:flex;" >    
+                                                    
+                            <div class="col-lg-8 col-xs-10" >
+                                <div role="listbox">
+                                    <div class="item active" >
+                                        <apex:outputPanel id="comp_Upload">
+                                        <c:ApplicationDocumentUpload group="{!aqg}" preventUpdates="false"/>
+                                    </apex:outputPanel>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" >
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-xs-12" >
+                    <hr style="border:solid #{!appControl.Line_Color__c};border-width:1px 0 0;clear:both;margin:1.25rem 0 1.1875rem;height:0;" />
+                </div>
+            </div>
+        </c:ApplicationBody>
+        <div class="row" >
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-xs-12" >
+                <apex:actionFunction name="saveWithDocs" action="{!submit}" reRender="themessages,comp_Upload" oncomplete="appHideLoadingSpinner();">
+                    <apex:param name="p1" value="" assignTo="{!additionalDataString}"/>
+                </apex:actionFunction>
+                <apex:commandLink styleClass="btn btn-lg" style="color:#{!appControl.Button_Text_Color__c};background-color:#{!appControl.Button_Color__c};" value="Upload"
+                 reRender="comp_Upload" onclick="performDocUploadSave();appShowLoadingSpinner();"/>
+                 <apex:commandLink styleClass="btn btn-lg  " style="color:#{!appControl.Button_Text_Color__c};background-color:#{!appControl.Button_Color__c};float: right" value="Close"
+                  onclick="window.top.close()"/>
+            </div>
+        </div>
+    </apex:form>
+</apex:page>

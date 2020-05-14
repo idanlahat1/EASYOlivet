@@ -1,0 +1,24 @@
+<apex:component >
+   
+    <apex:attribute name="group" description="The ApplicationQuestionGroup for this section" type="ApplicationQuestionGroup" required="true" />
+    <apex:attribute name="preventUpdates" description="" type="Boolean" default="false" required="false"/>
+
+    <apex:inputTExtArea styleClass="ckeditor" value="{!group.response.ValueTextEntry__c}" rendered="{!group.item.Allow_Text_Entry__c && !preventUpdates}"/>
+    <apex:outputField value="{!group.response.ValueTextEntry__c}" rendered="{!group.item.Allow_Text_Entry__c && preventUpdates}" />
+    
+    <apex:outputText style="font-weight:bold" value="Upload New Document: "/>
+    
+    <apex:outputPanel rendered="{!!preventUpdates}">
+        <input class='docUploadInput' data-respid="{!group.item.Id}" id="fileUploadInput" type="file"/>
+    </apex:outputPanel>
+    
+    <br/>
+    <apex:outputText style="font-weight:bold" value="Previously Uploaded Document: "/>
+   
+    <apex:repeat value="{!group.oldAttVersionList}" var="doc" id="theRepeat">
+            <br/>
+        <apex:outputLink value="/sfc/servlet.shepherd/version/download/{!doc.Id}"   target="_blank">{!doc.Title}</apex:outputLink>
+        
+    </apex:repeat>
+
+</apex:component>

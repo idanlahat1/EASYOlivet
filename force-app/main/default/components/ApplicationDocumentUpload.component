@@ -13,7 +13,7 @@
     </apex:outputPanel>
     
     <br/>
-    <apex:outputText style="font-weight:bold" value="Previously Uploaded Document: "/>
+    <apex:outputText style="font-weight:bold" value="Previously Uploaded Document2: "/>
    
     <apex:repeat value="{!group.oldAttVersionList}" var="doc" id="theRepeat">
             <br/>

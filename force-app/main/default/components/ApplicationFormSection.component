@@ -404,8 +404,8 @@
             <apex:outputText style="font-weight:bold" value="Previously Uploaded Document: " rendered="{!!preventUpdates && group.isEditable}"/>            
             <apex:repeat value="{!group.oldAttVersionList}" var="doc" id="theRepeat">
                 <br/>
-            <apex:outputLink value="/sfc/servlet.shepherd/version/download/{!doc.Id}" rendered="{!(preventUpdates || !group.isEditable) && NOT(ISBLANK(group.oldAttVersionList[0].Id))}"  target="_blank">{!doc.Title}</apex:outputLink>
-        </apex:repeat>
+                <apex:outputLink value="/sfc/servlet.shepherd/version/download/{!doc.Id}" target="_blank">{!doc.Title}</apex:outputLink> 
+            s</apex:repeat>
             <br/><br/>
             <apex:outputPanel rendered="{!!preventUpdates && group.isEditable}">
                 <input class='docUploadInput' data-respid="{!group.item.Id}" type="file"/>
@@ -782,12 +782,18 @@
             </td>
             </apex:outputPanel>
             </apex:repeat>
-                            <apex:outputPanel layout="none" rendered="{!(ISPICKVAL($User.UserType,'Standard') || group.item.Allow_Supporting_Documentation_Upload__c) && rr.idx != null}">
-                                <td class="ui-front">
+                            <!-- for now we hide this section as it wont re-render after an upload-->
+                            <apex:outputPanel layout="none" rendered="{ false && !ISPICKVAL($User.UserType,'Standard') || group.item.Allow_Supporting_Documentation_Upload__c}">
+                               <td class="ui-front">
                                     <apex:outputLink value="/{!rr.att.ContentDocumentId}" rendered="{!rr.att != null && ISPICKVAL($User.UserType,'Standard')}" target="_blank">View Uploaded Document
-                                    </apex:outputLink>
-                                    <apex:outputText value="Previously Uploaded Document: {!rr.att.ContentDocument.Title}" rendered="{!rr.att != null && NOT(ISPICKVAL($User.UserType,'Standard'))}" />
-                                </td>
+                                </apex:outputLink>
+                                <apex:outputText value="Previously Uploaded Documents:" rendered="{!rr.att != null && NOT(ISPICKVAL($User.UserType,'Standard'))}" />
+                                <apex:repeat value="{!rr.AttList}" var="doc"  id="theRepeat">
+                                        <br/>  
+                                    <apex:outputLink value="/sfc/servlet.shepherd/version/download/{!doc.ContentDocument.Id}" 
+                                    rendered="{!doc != null && NOT(ISPICKVAL($User.UserType,'Standard'))}"
+                                    target="_blank">{!doc.ContentDocument.Title}</apex:outputLink>
+                                    </apex:repeat></td>
                             </apex:outputPanel>
                             <apex:outputPanel layout="none" rendered="{!(ISPICKVAL($User.UserType,'Standard') || group.item.Allow_Supporting_Documentation_Upload__c) && rr.idx != null && !rr.isEditMode && group.isEditable && !preventUpdates}">
                                 <td class="ui-front">
